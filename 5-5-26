@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chico City Council — May 5, 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #f5f2ec;
+    --surface: #ffffff;
+    --surface2: #f0ede6;
+    --border: rgba(0,0,0,0.09);
+    --border2: rgba(0,0,0,0.15);
+    --text: #1a1814;
+    --text2: #6b6660;
+    --text3: #9c9691;
+    --accent: #2d5a3d;
+    --accent-light: #e8f0eb;
+    --red: #8b2020;
+    --red-light: #f5e8e8;
+    --amber: #7a4f00;
+    --amber-light: #fdf3e0;
+    --blue: #1a3d6b;
+    --blue-light: #e8eef7;
+    --tag-h: 22px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: var(--text);
+    color: var(--bg);
+    padding: 3rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), #5a9e70, var(--accent));
+  }
+  .header-inner { max-width: 860px; margin: 0 auto; }
+  .header-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,.5);
+    margin-bottom: .75rem;
+  }
+  .header-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--bg);
+    margin-bottom: .5rem;
+  }
+  .header-title em { font-style: italic; color: rgba(245,242,236,.65); }
+  .header-meta {
+    font-size: 13px;
+    color: rgba(245,242,236,.5);
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem 1rem;
+    margin-top: 1rem;
+  }
+  .header-meta span { display: flex; align-items: center; gap: .35rem; }
+
+  /* ── Layout ── */
+  .container { max-width: 860px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+
+  /* ── Stats row ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 2.5rem;
+  }
+  .stat {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+  }
+  .stat-label { font-size: 11px; color: var(--text3); letter-spacing: .04em; text-transform: uppercase; margin-bottom: .3rem; }
+  .stat-val { font-family: 'Instrument Serif', serif; font-size: 2rem; color: var(--text); line-height: 1; }
+  .stat-sub { font-size: 12px; color: var(--text2); margin-top: .3rem; }
+
+  /* ── Tabs ── */
+  .tabs-wrap { margin-bottom: 1.75rem; }
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    border-bottom: 0.5px solid var(--border);
+    padding-bottom: 0;
+  }
+  .tab-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 7px 16px;
+    border: none;
+    background: none;
+    color: var(--text2);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -0.5px;
+    transition: color .15s, border-color .15s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--text); border-bottom-color: var(--accent); font-weight: 500; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    margin-bottom: .875rem;
+    transition: border-color .15s;
+  }
+  .card:hover { border-color: var(--border2); }
+  .card-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: .5rem; }
+  .card-num { font-size: 11px; color: var(--text3); min-width: 32px; padding-top: 3px; font-weight: 500; }
+  .card-title { font-size: 15px; font-weight: 500; color: var(--text); line-height: 1.35; flex: 1; }
+  .card-desc { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: .5rem; }
+  .card-rec {
+    font-size: 12px;
+    color: var(--text2);
+    border-left: 2px solid var(--border2);
+    padding-left: 10px;
+    margin-top: .65rem;
+    font-style: italic;
+  }
+
+  /* ── Badges ── */
+  .badges { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: .6rem; }
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 9px;
+    border-radius: 20px;
+    height: var(--tag-h);
+    display: inline-flex;
+    align-items: center;
+    letter-spacing: .01em;
+  }
+  .badge-green { background: var(--accent-light); color: var(--accent); }
+  .badge-red   { background: var(--red-light);   color: var(--red); }
+  .badge-amber { background: var(--amber-light);  color: var(--amber); }
+  .badge-blue  { background: var(--blue-light);   color: var(--blue); }
+  .badge-gray  { background: var(--surface2);     color: var(--text2); }
+
+  /* ── Expand ── */
+  .expand-btn {
+    font-size: 12px;
+    color: var(--accent);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-top: .5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'DM Sans', sans-serif;
+    transition: opacity .15s;
+  }
+  .expand-btn:hover { opacity: .75; }
+  .expand-btn .chevron { display: inline-block; transition: transform .2s; }
+  .expand-btn.open .chevron { transform: rotate(180deg); }
+  .detail {
+    display: none;
+    margin-top: .875rem;
+    padding-top: .875rem;
+    border-top: 0.5px solid var(--border);
+  }
+  .detail.open { display: block; }
+  .detail-section { margin-bottom: .75rem; }
+  .detail-label {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--text3);
+    margin-bottom: .35rem;
+  }
+  .detail-body { font-size: 13px; color: var(--text2); line-height: 1.65; }
+  .pills { display: flex; flex-wrap: wrap; gap: 5px; margin-top: .4rem; }
+  .pill {
+    font-size: 11px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    border: 0.5px solid;
+    background: transparent;
+  }
+  .pill-for   { border-color: var(--accent); color: var(--accent); }
+  .pill-against { border-color: var(--red);  color: var(--red); }
+  .pill-neutral { border-color: var(--border2); color: var(--text2); }
+
+  /* ── Lead paragraph ── */
+  .lead {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    border-left: 3px solid var(--accent);
+  }
+  .lead strong { color: var(--text); font-weight: 500; }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; padding-left: 24px; margin-top: .5rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 5px; top: 6px; bottom: 6px;
+    width: 1px;
+    background: var(--border2);
+  }
+  .tl-item { position: relative; margin-bottom: 1.1rem; }
+  .tl-dot {
+    position: absolute;
+    left: -21px; top: 5px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border2);
+    background: var(--surface);
+  }
+  .tl-dot.past    { background: var(--text2); border-color: var(--text2); }
+  .tl-dot.current { background: var(--amber); border-color: var(--amber); box-shadow: 0 0 0 3px var(--amber-light); }
+  .tl-dot.future  { background: var(--surface); border-color: var(--border2); }
+  .tl-date { font-size: 11px; color: var(--text3); margin-bottom: 2px; }
+  .tl-event { font-size: 14px; color: var(--text); font-weight: 500; line-height: 1.4; }
+  .tl-sub { font-size: 12px; color: var(--text2); margin-top: 3px; line-height: 1.5; }
+
+  /* ── Ask buttons ── */
+  .ask-row { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 8px; }
+  .ask-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    padding: 6px 13px;
+    border: 0.5px solid var(--border2);
+    border-radius: 6px;
+    cursor: pointer;
+    background: var(--surface);
+    color: var(--text2);
+    transition: background .15s, color .15s, border-color .15s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .ask-btn:hover { background: var(--surface2); color: var(--text); border-color: var(--border2); }
+  .ask-btn::after { content: ' ↗'; }
+
+  /* ── Section label ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 1rem;
+    margin-top: .25rem;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    border-top: 0.5px solid var(--border);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text3);
+  }
+  .site-footer a { color: var(--text2); }
+
+  @media (max-width: 600px) {
+    .site-header { padding: 2rem 1.25rem 2rem; }
+    .container { padding: 1.5rem 1.25rem 3rem; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-eyebrow">City of Chico · Regular Meeting</div>
+    <h1 class="header-title">Council Briefing<br><em>May 5, 2026</em></h1>
+    <div class="header-meta">
+      <span>📍 Council Chamber, 421 Main Street</span>
+      <span>🕓 Closed Session 4:30 p.m. · Regular Meeting 6:00 p.m.</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-label">Agenda items</div>
+      <div class="stat-val">17</div>
+      <div class="stat-sub">Consent + Hearings + Regular</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Contested items</div>
+      <div class="stat-val">3</div>
+      <div class="stat-sub">Sewer rates, nuisances, micro&shy;mobility</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Next deadline</div>
+      <div class="stat-val">Jun 2</div>
+      <div class="stat-sub">Weed abatement &amp; Eaton Rd hearing</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Next meeting</div>
+      <div class="stat-val">May 19</div>
+      <div class="stat-sub">Budget workshop + FY 26-27 session</div>
+    </div>
+  </div>
+
+  <div class="tabs-wrap">
+    <div class="tabs" role="tablist">
+      <button class="tab-btn active" onclick="showTab('overview', this)">Overview</button>
+      <button class="tab-btn" onclick="showTab('sewer', this)">Sewer rate fight</button>
+      <button class="tab-btn" onclick="showTab('consent', this)">Consent agenda</button>
+      <button class="tab-btn" onclick="showTab('hearings', this)">Public hearings</button>
+      <button class="tab-btn" onclick="showTab('regular', this)">Regular agenda</button>
+      <button class="tab-btn" onclick="showTab('closed', this)">Closed session</button>
+    </div>
+  </div>
+
+  <!-- ════ OVERVIEW ════ -->
+  <div id="overview" class="panel active">
+    <div class="lead">
+      Today's meeting is dominated by two interconnected fights: a years-long battle over <strong>sewer rate increases</strong> (items 5.1, 5.2, and 5.8), and a continuing effort to define what the city can legally do about <strong>public nuisances</strong> without violating the Warren Settlement (item 5.4). A new shared e-scooter/bike program, downtown parking pilot, and a big fee schedule update round out the action items.
+    </div>
+
+    <div class="section-label">Top issues</div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">5.1–5.2</span>
+        <span class="card-title">🔴 Sewer rate war — continued from two prior meetings</span>
+      </div>
+      <div class="badges">
+        <span class="badge badge-red">Highly contested</span>
+        <span class="badge badge-amber">Continued 3× </span>
+      </div>
+      <div class="card-desc">On March 17, council voted 4-3 to adopt "Option 1" for five-year sewer rate adjustments. Vice Mayor Bennett — on the winning side — then invoked a rare reconsideration procedure. That reconsideration was itself approved 5-2. Now council must revisit both the procedural framework for future rate hearings (5.1) and the underlying rate question (5.2).</div>
+      <button class="expand-btn" onclick="toggle('ov1', this)">Full breakdown <span class="chevron">▾</span></button>
+      <div class="detail" id="ov1">
+        <div class="detail-section">
+          <div class="detail-label">March 17 vote</div>
+          <div class="detail-body">4-3 for Option 1. O'Brien, van Overbeek, and Reynolds in opposition. Reconsideration motion later passed 5-2 (Goldstein and Hawley opposed).</div>
+          <div class="pills" style="margin-top:.5rem;">
+            <span class="pill pill-for">For reconsideration: 5</span>
+            <span class="pill pill-against">Against: Goldstein, Hawley</span>
+          </div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">What is Option 1?</div>
+          <div class="detail-body">The staff-recommended five-year sewer rate adjustment schedule — intended to address infrastructure funding gaps and long-deferred maintenance in the sewer enterprise fund.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Proposition 218 issue (item 5.1)</div>
+          <div class="detail-body">Any property-related rate increase requires compliance with Prop 218 (the California "Right to Vote on Taxes" act). The city must adopt formal procedures for a public hearing and majority protest process before any rate hike can take effect. Item 5.1 is a legal prerequisite to item 5.2.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Low-income sewer program (item 5.8)</div>
+          <div class="detail-body">Councilmember Hawley added a discussion of an affordability program for low-income ratepayers — likely tied to Hawley's opposition to the reconsideration and desire to condition any rate increase on affordability protections.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">5.4</span>
+        <span class="card-title">🟡 Public nuisances vs. the Warren Settlement</span>
+      </div>
+      <div class="badges">
+        <span class="badge badge-amber">Politically charged</span>
+        <span class="badge badge-gray">Continued from 3/17</span>
+      </div>
+      <div class="card-desc">Mayor Reynolds requested a discussion of what tools the city has to address public nuisances without invalidating the Warren Settlement — a prior legal agreement that constrains how the city can treat unhoused individuals and encampments. This is a recurring tension in Chico politics.</div>
+      <button class="expand-btn" onclick="toggle('ov2', this)">Show context <span class="chevron">▾</span></button>
+      <div class="detail" id="ov2">
+        <div class="detail-section">
+          <div class="detail-label">Background</div>
+          <div class="detail-body">The Warren v. Chico lawsuit resulted in a settlement limiting the city's ability to conduct certain sweeps of homeless encampments. The U.S. Supreme Court's 2024 Grants Pass v. Johnson decision shifted the legal landscape, giving cities more latitude to enforce anti-camping ordinances. Mayor Reynolds is exploring options within — or potentially revisiting — the settlement framework.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">The core tension</div>
+          <div class="pills">
+            <span class="pill pill-against">Pro-enforcement majority</span>
+            <span class="pill pill-for">Housing-first / civil liberties advocates</span>
+          </div>
+          <div class="detail-body" style="margin-top:.5rem;">The council majority has generally favored stricter enforcement. Advocates argue the city must provide adequate shelter before enforcing anti-camping rules.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">5.5</span>
+        <span class="card-title">🟢 Shared micromobility program (e-scooters / bikes)</span>
+      </div>
+      <div class="badges">
+        <span class="badge badge-green">Direction item</span>
+      </div>
+      <div class="card-desc">In October 2025, council directed staff to develop a plan for shared micromobility. Staff returns today with an implementation overview covering permitting, right-of-way impacts, and next steps. No vote yet — council direction is the output.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-num">5.6</span>
+        <span class="card-title">🟢 Downtown "Park &amp; Go" free parking pilot</span>
+      </div>
+      <div class="badges">
+        <span class="badge badge-green">Direction item</span>
+      </div>
+      <div class="card-desc">The Downtown PBID wants the city to run a 3-month summer pilot of free 2-hour downtown parking with no kiosk registration required. Staff analyzed operational and financial implications. Council will decide whether to proceed.</div>
+    </div>
+  </div>
+
+  <!-- ════ SEWER ════ -->
+  <div id="sewer" class="panel">
+    <div class="lead">The sewer rate saga is the longest-running fight on today's agenda, spanning multiple meetings and reflecting a deep split on the council. Here is the full arc.</div>
+
+    <div class="section-label">Timeline</div>
+    <div class="card">
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot past"></div>
+          <div class="tl-date">March 17, 2026</div>
+          <div class="tl-event">Council adopts "Option 1" sewer rate plan — 4 to 3</div>
+          <div class="tl-sub">O'Brien, van Overbeek, and Reynolds in opposition.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot past"></div>
+          <div class="tl-date">April 7, 2026</div>
+          <div class="tl-event">Vice Mayor Bennett invokes reconsideration under AP&amp;P 10-10</div>
+          <div class="tl-sub">Bennett was on the prevailing side — a required condition. Council votes 5-2 (Goldstein, Hawley opposed) to agendize reconsideration.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot past"></div>
+          <div class="tl-date">April 21, 2026</div>
+          <div class="tl-event">Items 5.1 and 5.2 continued — no action taken</div>
+          <div class="tl-sub">Pushed to today's meeting.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot current"></div>
+          <div class="tl-date">May 5, 2026 — TODAY</div>
+          <div class="tl-event">Three sewer items on agenda</div>
+          <div class="tl-sub">5.1: Prop 218 procedures · 5.2: Reconsideration of Option 1 · 5.8: Low-income sewer program (Hawley request).</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot future"></div>
+          <div class="tl-date">TBD — after today</div>
+          <div class="tl-event">If Prop 218 procedures adopted: public notice period begins</div>
+          <div class="tl-sub">Ratepayers receive mailed notice. Majority protest period opens. Public hearing required before any rate change takes effect.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot future"></div>
+          <div class="tl-date">Future meeting</div>
+          <div class="tl-event">Final rate adoption vote (if no majority protest)</div>
+          <div class="tl-sub">New rates would then be phased in over five years.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Arguments on each side</div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Arguments for the rate increase (Option 1)</span></div>
+      <div class="card-desc">The sewer enterprise fund faces long-deferred infrastructure needs. Without rate adjustments, the city risks service degradation and potential state regulatory violations. The five-year phased schedule spreads the cost burden and gives ratepayers time to adjust. Staff recommended this option as financially necessary.</div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Arguments for reconsideration / against Option 1</span></div>
+      <div class="card-desc">O'Brien, van Overbeek, and Reynolds opposed the original vote. Vice Mayor Bennett's reconsideration suggests at least one prior yes vote may have changed position. Concerns include: rates rising too fast, insufficient affordability protections for low-income residents (hence item 5.8), and whether the rate study's assumptions are sound. The Finance Committee also flagged concerns about the Highway Construction Cost Index inflator (35.7%).</div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Proposition 218 — why it matters</span></div>
+      <div class="card-desc">California's Prop 218 (1996) requires local governments to give written notice to all property owners before raising property-related fees, hold a public hearing, and allow a majority protest that can kill the increase. Item 5.1 — adopting formal hearing procedures — is legally required before any sewer rate can be raised. Without it, any rate increase is legally vulnerable.</div>
+    </div>
+  </div>
+
+  <!-- ════ CONSENT ════ -->
+  <div id="consent" class="panel">
+    <div class="lead">Consent agenda items are considered routine and voted on together unless pulled for individual discussion by a councilmember or member of the public.</div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">2.1</span><span class="card-title">Sewer connection fee — 1569 E. 8th Street</span></div>
+      <div class="badges"><span class="badge badge-green">Routine</span></div>
+      <div class="card-desc">Allows one property to pay its sewer connection fee as an annual assessment on the tax roll rather than all at once. A standard administrative accommodation.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">2.2</span><span class="card-title">Eaton Road right-of-way vacation — Sycamore Plaza 3</span></div>
+      <div class="badges"><span class="badge badge-green">Routine</span></div>
+      <div class="card-desc">Commercial developer Sycamore Plaza 3, LP is asking the city to abandon a strip of unused public right-of-way on Eaton Road to accommodate new development. Utility companies have no objections. Today's action only schedules a public hearing for June 2 — no final vacation yet.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">2.3</span><span class="card-title">Husa Ranch / Nob Hill Park Landscaping &amp; Lighting District — FY 26-27</span></div>
+      <div class="badges"><span class="badge badge-green">Routine · Annual</span></div>
+      <div class="card-desc">Annual renewal of the landscaping and lighting district for this neighborhood. Two resolutions: one initiates proceedings, one sets the public hearing for June 2.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">2.4</span><span class="card-title">Supplemental appropriation / budget modification No. 2026-ASD-004</span></div>
+      <div class="badges"><span class="badge badge-green">Routine</span></div>
+      <div class="card-desc">A mid-year budget adjustment requested by the Administrative Services Director. These are typically reallocations of existing funds or acceptance of grant money.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">2.5</span><span class="card-title">Sale of 1550 Marauder Street to California Water Service</span></div>
+      <div class="badges"><span class="badge badge-amber">Requires 5 votes</span></div>
+      <div class="card-desc">The city declares a parcel near the airport as "exempt surplus land" and authorizes its sale to Cal Water. The "exempt" designation means the city is not required to first offer the property for affordable housing under the Surplus Land Act. Needs at least five affirmative votes.</div>
+      <button class="expand-btn" onclick="toggle('c25', this)">Background <span class="chevron">▾</span></button>
+      <div class="detail" id="c25">
+        <div class="detail-body">Cal Water has been active in Chico discussions — a March 2026 agenda addendum involved a Cal Water PFAS capital program support letter. This sale may be connected to water infrastructure improvements. The Surplus Land Act generally requires cities to offer surplus property to affordable housing developers first; the "exempt" classification bypasses that process.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">2.6–2.7</span><span class="card-title">MOU side letters — Police Officers &amp; Police Management</span></div>
+      <div class="badges"><span class="badge badge-blue">Labor</span></div>
+      <div class="card-desc">Technical amendments to the existing MOUs (expiring June 30, 2026) for CPOA and CPM, updating language related to the Retiree Medical Trust. Not new contracts — just cleanup of a specific clause.</div>
+    </div>
+  </div>
+
+  <!-- ════ HEARINGS ════ -->
+  <div id="hearings" class="panel">
+    <div class="lead">Three formal public hearings are on the agenda. These require open public comment before council votes.</div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">4.1</span><span class="card-title">Weed / debris abatement — public nuisance hearing</span></div>
+      <div class="badges"><span class="badge badge-blue">Public hearing</span></div>
+      <div class="card-desc">Council declared weeds, rubbish, and debris on certain properties a public nuisance on April 21. This hearing allows affected property owners to object. Staff recommends overruling objections, setting June 1 as the last day for voluntary cleanup, and authorizing the city to abate and bill owners if they don't comply.</div>
+      <div class="card-rec">Rec: Overrule objections. Set June 1 voluntary deadline. Authorize forced abatement and cost recovery from property owners.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">4.2</span><span class="card-title">Workforce vacancies — AB 2561 compliance hearing</span></div>
+      <div class="badges"><span class="badge badge-blue">Public hearing · State-mandated</span></div>
+      <div class="card-desc">Assembly Bill 2561 (Government Code §3502.3) requires cities to hold a public hearing on workforce vacancies and recruitment and retention efforts. This is a state reporting requirement, not a policy decision. The HR deputy director will present the report.</div>
+      <button class="expand-btn" onclick="toggle('h42', this)">Why this matters <span class="chevron">▾</span></button>
+      <div class="detail" id="h42">
+        <div class="detail-body">AB 2561 gives employees and unions visibility into staffing conditions. The report covers how many positions are vacant, what the city is doing to fill them, and what retention incentives are in place. The closed session agenda also includes labor negotiations across all bargaining units — these are directly connected to the staffing picture.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">4.3</span><span class="card-title">Annual fee schedule update — Amendment No. 359</span></div>
+      <div class="badges"><span class="badge badge-blue">Public hearing</span><span class="badge badge-amber">Contested at committee</span></div>
+      <div class="card-desc">The city updates its fee schedule annually. This covers 20+ schedules across planning, building, engineering, utilities, animal services, and parks. A public hearing is specifically required for Development Impact Fee increases under Prop 218.</div>
+      <button class="expand-btn" onclick="toggle('h43', this)">The controversy <span class="chevron">▾</span></button>
+      <div class="detail" id="h43">
+        <div class="detail-section">
+          <div class="detail-label">Finance Committee split (2-1, Hawley opposed)</div>
+          <div class="detail-body">The committee recommended capping HCI fee increases at 3% — far below the full HCI rate of 35.7% — pending a Nexus Study. They also directed the Building Department to reduce its fees closer to 3% (vs. proposed ~8%) by improving internal processes. All other fees passed 3-0.</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">Why 35.7% is controversial</div>
+          <div class="detail-body">The Highway Construction Cost Index (published by Caltrans) surged post-COVID. Applying it directly to Development Impact Fees could significantly raise costs for new construction — potentially discouraging development at a time when the city wants to encourage housing.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ REGULAR ════ -->
+  <div id="regular" class="panel">
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">5.1</span><span class="card-title">Prop 218 hearing procedures — sewer rates</span></div>
+      <div class="badges"><span class="badge badge-red">Contested</span><span class="badge badge-amber">Continued from 4/7 &amp; 4/21</span></div>
+      <div class="card-desc">Formal adoption of procedures for the public hearing and majority protest process required before sewer rates can be raised. A legal prerequisite under Article XIII D of the California Constitution. If this fails, no rate increase can lawfully proceed.</div>
+      <div class="card-rec">Rec: Administrative Services Director recommends adoption.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">5.2</span><span class="card-title">Sewer Enterprise Study reconsideration — Vice Mayor Bennett</span></div>
+      <div class="badges"><span class="badge badge-red">Contested</span><span class="badge badge-amber">Continued from 4/21</span></div>
+      <div class="card-desc">The actual reconsideration of the March 17 vote on Option 1 for five-year sewer rate adjustments. Council could affirm the original decision, choose a different option, or take no action.</div>
+      <div class="card-rec">Rec: Consider reconsideration and provide direction to staff.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">5.3</span><span class="card-title">Confirmation of Deputy Director — Public Works Operations &amp; Maintenance</span></div>
+      <div class="badges"><span class="badge badge-gray">Personnel · Continued from 4/21</span></div>
+      <div class="card-desc">City Manager Sorensen proposes hiring Jacques Vos as Deputy Director of Public Works O&amp;M at $145,000/year. Charter Section 605 requires council confirmation of department head appointments. The City Manager must first orally summarize the proposal (Gov. Code §54953(c)(3)).</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">5.4</span><span class="card-title">Mayor Reynolds — public nuisance mitigation options</span></div>
+      <div class="badges"><span class="badge badge-amber">Politically charged</span><span class="badge badge-gray">Continued from 3/17</span></div>
+      <div class="card-desc">Discussion of legal tools the city can use to address public nuisances without triggering or violating the Warren Settlement. No specific action item — this is a direction-setting conversation.</div>
+      <button class="expand-btn" onclick="toggle('r54', this)">Key tensions <span class="chevron">▾</span></button>
+      <div class="detail" id="r54">
+        <div class="detail-body">The Warren Settlement emerged from litigation over Chico's treatment of unhoused individuals. The U.S. Supreme Court's 2024 Grants Pass v. Johnson decision gave cities more latitude to enforce anti-camping ordinances even without providing shelter. Chico's council majority has generally favored more aggressive enforcement; advocates argue the city still lacks adequate shelter capacity. Today's discussion may explore: enhanced code enforcement on nuisance properties, anti-sitting ordinances, or renegotiating the settlement's terms.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">5.5</span><span class="card-title">Shared micromobility program</span></div>
+      <div class="badges"><span class="badge badge-green">Direction only</span></div>
+      <div class="card-desc">Staff's implementation plan for allowing shared e-scooters and e-bikes in Chico, following a council directive in October 2025. Covers permitting, right-of-way impacts, and recommended next steps.</div>
+      <button class="expand-btn" onclick="toggle('r55', this)">Key questions <span class="chevron">▾</span></button>
+      <div class="detail" id="r55">
+        <div class="detail-body">Where can devices be parked and locked? Who is liable for sidewalk obstruction? What permit fees apply? Which vendors get access? How does it interact with existing bike infrastructure in Bidwell Park?</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">5.6</span><span class="card-title">Downtown "Park &amp; Go" free parking pilot — PBID request</span></div>
+      <div class="badges"><span class="badge badge-green">Direction only</span></div>
+      <div class="card-desc">The downtown PBID is requesting a 3-month summer 2026 pilot of free 2-hour parking in downtown Chico with no kiosk registration required. Staff outlines financial and operational implications. Council decides whether to proceed.</div>
+      <button class="expand-btn" onclick="toggle('r56', this)">Context <span class="chevron">▾</span></button>
+      <div class="detail" id="r56">
+        <div class="detail-body">Downtown Chico has faced retail vacancy and foot traffic challenges since the pandemic. Free parking is a classic tool to drive visits. The city gives up parking revenue during the pilot. The PBID — a business-improvement assessment district — is backing the initiative, signaling broad downtown business support.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">5.7</span><span class="card-title">Finance Committee report — April 15, 2026</span></div>
+      <div class="badges"><span class="badge badge-gray">Accept report</span></div>
+      <div class="card-desc">Council accepts the Finance Committee's recommendations on the fee schedule (see item 4.3) and the monthly financial reports / FY 26-27 budget preview as information only. The committee vote on HCI fee increases was 2-1, with Hawley opposed.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">5.8</span><span class="card-title">Councilmember Hawley — low-income sewer rate program</span></div>
+      <div class="badges"><span class="badge badge-red">Linked to sewer fight</span></div>
+      <div class="card-desc">Discussion of creating an affordability tier or subsidy program for sewer rates for low-income residents. Agendized at Hawley's request. Directly connected to the sewer rate reconsideration and Hawley's opposition to prior votes.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">5.9</span><span class="card-title">Councilmember van Overbeek — Bidwell Mansion</span></div>
+      <div class="badges"><span class="badge badge-gray">Discussion</span></div>
+      <div class="card-desc">Discussion of what council would like to see happen at Bidwell Mansion — a California State Park property and former home of Chico founder John Bidwell. A significant local historic and tourist site operated by California State Parks.</div>
+      <button class="expand-btn" onclick="toggle('r59', this)">Background <span class="chevron">▾</span></button>
+      <div class="detail" id="r59">
+        <div class="detail-body">Bidwell Mansion State Historic Park is operated by California State Parks. The city has historically had an interest in the mansion's programs, funding, and accessibility. This item likely reflects concerns about state budget cuts to parks, potential changes in programming, or a desire for the city to play a larger role in the mansion's future.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ CLOSED ════ -->
+  <div id="closed" class="panel">
+    <div class="lead">Closed session (4:30 p.m., Conference Room 2) is not public. Items are announced in advance but deliberations are confidential. The city attorney may report out any action taken at the start of the regular meeting.</div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">2.1</span><span class="card-title">Pending litigation — Todd Mino &amp; Ryon Mitchell vs. City of Chico</span></div>
+      <div class="badges"><span class="badge badge-red">Workers' comp claims</span></div>
+      <div class="card-desc">Two workers' compensation claims against the city. Mino has two claim numbers; Mitchell has three. Council will receive a litigation update and may authorize settlement terms in closed session.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">2.2</span><span class="card-title">Labor negotiations — all bargaining units</span></div>
+      <div class="badges"><span class="badge badge-blue">Labor</span></div>
+      <div class="card-desc">The city's labor negotiator (AALRR law firm) and HR Director will brief council on the status of negotiations with all ten bargaining units, including police, fire, SEIU, and Stationary Engineers Local 39 — whose draft MOU is being sunshined publicly today under item 6.4.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">2.3</span><span class="card-title">Potential litigation — one case</span></div>
+      <div class="badges"><span class="badge badge-gray">Confidential</span></div>
+      <div class="card-desc">A matter not yet filed as a lawsuit for which the city is anticipating litigation. Details not publicly disclosed under Gov. Code §54956.9(d)(4).</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">2.4</span><span class="card-title">City Manager recruitment</span></div>
+      <div class="badges"><span class="badge badge-amber">Personnel · Active search</span></div>
+      <div class="card-desc">Discussion of the ongoing search to hire a permanent City Manager. Mark Sorensen is currently serving in the role. This item at the closed session level suggests the recruitment is at a stage requiring direct council guidance or deliberation over candidates.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-num">2.5</span><span class="card-title">Added item — one additional potential litigation case</span></div>
+      <div class="badges"><span class="badge badge-red">Posted addendum</span></div>
+      <div class="card-desc">A second potential litigation matter arose after the agenda was posted. Council must first vote by two-thirds majority to add it to the closed session, finding there is an immediate need for action and that the need arose after the agenda was posted.</div>
+    </div>
+  </div>
+
+</div><!-- /.container -->
+
+<footer class="site-footer">
+  Source: <a href="https://chico-ca.granicus.com/GeneratedAgendaViewer.php?view_id=2&event_id=1193" target="_blank">Chico Granicus agenda viewer</a> · Regular meeting May 5, 2026 · Briefing generated May 5, 2026
+</footer>
+
+<script>
+  function showTab(id, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function toggle(id, btn) {
+    const el = document.getElementById(id);
+    const isOpen = el.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+  }
+</script>
+</body>
+</html>
